@@ -64,7 +64,20 @@ PRODUCT_PACKAGES += \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
+    libaudio-resampler \
     tinymix
+    
+# Audio effects
+PRODUCT_PACKAGES += \
+    libqcomvisualizer \
+    libqcomvoiceprocessing \
+    libqcomvoiceprocessingdescriptors \
+    libqcompostprocbundle    
+    
+# Live Wallpapers
+PRODUCT_PACKAGES += \
+    LiveWallpapersPicker \
+    librs_jni    
 
 PRODUCT_PROPERTY_OVERRIDES += \
     mm.enable.smoothstreaming=true \
@@ -96,7 +109,12 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    camera.bacon
+    libqomx_core \
+    libmmcamera_interface \
+    libmmjpeg_interface \
+    camera.bacon \
+    mm-jpeg-interface-test \
+    mm-qcamera-app
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -129,7 +147,18 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    gps.msm8974
+    libloc_adapter \
+    libloc_eng \
+    libloc_api_v02 \
+    libloc_ds_api \
+    libloc_core \
+    libizat_core \
+    libgeofence \
+    libgps.utils \
+    gps.msm8974 \
+    flp.msm8974 \
+    liblbs_core \
+    flp.conf
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
@@ -169,12 +198,24 @@ PRODUCT_PACKAGES += \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
+    libmm-omxcore \
     libOmxEvrcEnc \
     libOmxQcelp13Enc \
     libOmxVdec \
     libOmxVdecHevc \
     libOmxVenc \
     libstagefrighthw
+    
+PRODUCT_PACKAGES += \
+    libion
+    
+# Camera configuration
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    camera.disable_zsl_mode=0
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.camera.HAL3.enabled=0
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.camera.ois.disable=0        
 
 # NFC
 ifeq ($(TARGET_BUILD_VARIANT),user)
@@ -332,6 +373,3 @@ $(call inherit-product-if-exists, vendor/oneplus/bacon/bacon-vendor.mk)
 ifneq ($(QCPATH),)
 $(call inherit-product-if-exists, $(QCPATH)/prebuilt_HY11/target/product/msm8974/prebuilt.mk)
 endif
-
-# Inherit from oppo-common
-$(call inherit-product, device/oppo/common/common.mk)
